@@ -19,8 +19,8 @@
 
 import './Webview.css';
 
-import React, {useEffect, useState, useRef} from 'react';
-import {ContainerSM, Text, H1, Logo} from '@wireapp/react-ui-kit';
+import React, {useEffect, useRef, useState} from 'react';
+import {ContainerSM, H1, Logo, Text} from '@wireapp/react-ui-kit';
 import {SVGIcon} from '@wireapp/react-ui-kit/dist/Icon/SVGIcon';
 
 import {EVENT_TYPE} from '../../../src/lib/eventType';
@@ -56,19 +56,17 @@ const getEnvironmentUrl = account => {
 
 const Webview = ({
   account,
-  accounts,
   onUnreadCountUpdated,
   abortAccountCreation,
   resetIdentity,
   switchAccount,
-  updateAccountBadgeCount,
   updateAccountData,
   updateAccountLifecycle,
 }) => {
   const webviewRef = useRef();
   const [canDelete, setCanDelete] = useState(false);
   const [url, setUrl] = useState(getEnvironmentUrl(account));
-  const [webviewError, setWebviewError] = useState(null);
+  const [webviewError] = useState(null);
 
   useEffect(() => {
     const newUrl = getEnvironmentUrl(account);
@@ -104,12 +102,12 @@ const Webview = ({
   }, [account]);
 
   useEffect(() => {
-    const listener = error => setWebviewError(error);
+    const onError = () => {};
     const ON_WEBVIEW_ERROR = 'did-fail-load';
-    webviewRef.current.addEventListener(ON_WEBVIEW_ERROR, listener);
+    webviewRef.current.addEventListener(ON_WEBVIEW_ERROR, onError);
     return () => {
       if (webviewRef.current) {
-        webviewRef.current.removeEventListener(ON_WEBVIEW_ERROR, listener);
+        webviewRef.current.removeEventListener(ON_WEBVIEW_ERROR, onError);
       }
     };
   }, []);
