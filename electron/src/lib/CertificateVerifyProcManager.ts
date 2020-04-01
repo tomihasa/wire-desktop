@@ -191,7 +191,10 @@ export const attachTo = (main: BrowserWindow) => {
 };
 
 // @see https://www.electronjs.org/docs/api/session#sessetcertificateverifyprocproc
-export const setCertificateVerifyProc = async (request: ProcRequest, cb: (verificationResult: number) => void) => {
+export const setCertificateVerifyProc = async (
+  request: CertificateVerifyProcProcRequest,
+  cb: (verificationResult: number) => void,
+) => {
   const {hostname, certificate, verificationResult, errorCode} = request;
   // Check browser results
   if (verificationResult !== 'net::OK') {
